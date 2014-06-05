@@ -117,7 +117,7 @@ func increment(first: Int, #amount: Int) -> Int {
 
 increment(10, amount: 20)
 
-struct Point {
+struct APoint {
     var x, y: Double
     
     mutating func moveToTheRightBy(dx: Double) {
@@ -125,7 +125,7 @@ struct Point {
     }
 }
 
-var p = Point(x: 0.0, y: 1.0) // var is necessary.
+var p = APoint(x: 0.0, y: 1.0) // var is necessary.
 p.moveToTheRightBy(10.0)
 p
 
@@ -261,4 +261,176 @@ breakfastList[0].purchased = true
 for item in breakfastList {
     println(item.description)
 }
+
+class Person {
+    var residence: Residence?
+}
+
+class Residence {
+    var numberOfRooms = 1
+}
+
+let john = Person()
+
+//let roomCount = john.residence!.numberOfRooms //error
+//john.residence = Residence()
+
+/*
+
+在Case1中，roomCount是Int?类型
+
+而Case2使用了可选变量绑定（Optional Binding）：
+即在if或while的条件语句中声明新变量。roomCount是Int类型。
+
+而字符串变量替换操作\()能够自动处理可选变量。在nil的时候，直接输出"nil"。
+也就是说，如果不关心roomCount:Int?（Case1）是否是nil，
+完全可以与roomCount:Int（Case2）一样处理。
+
+因为Case1的if语句保证了roomCount:Int?肯定有有效值，
+因此，替换时能够随意使用roomCount或roomCount!。
+
+而Case2中，roomCount已经是Int类型了，因此只能用roomCount。
+（有点绕，基本就是这样的情况。
+
+*/
+
+// Case 1: roomCount in println, could use both roomCount or roomCount! Odd!
+let roomCount = john.residence?.numberOfRooms
+if roomCount {
+    println("John's residence has \(roomCount!) room(s).")
+}
+else {
+    println("Unable to retrive the number of rooms.")
+}
+
+// Case 2
+if let roomCount = john.residence?.numberOfRooms {
+    println("John's residence has \(roomCount) room(s).")
+}
+else {
+    println("Unable to retrive the number of rooms.")
+}
+
+let possibleNumber = "abc" // "123"
+let convertedNumber = possibleNumber.toInt()
+println("\(possibleNumber) has integer value of \(convertedNumber)") // Exception if use convertedNumber! 
+
+class FirstLevel {
+    var next: SecondLevel?
+}
+
+class SecondLevel {
+    func nothingReturn() {
+        
+    }
+}
+
+class ZeroLevel {
+    let identity = "Level 0"
+}
+
+class SubFirstLevel : FirstLevel {
+    var previous: ZeroLevel?
+}
+
+class SupFirstLevel : FirstLevel {
+    var sup = "A little over first level"
+}
+
+let f = FirstLevel()
+f.next = SecondLevel()
+
+if f.next?.nothingReturn() {
+    println("returned Void!")
+}
+else {
+    println("got nil.")
+}
+
+let sfs = [SubFirstLevel(), SubFirstLevel(), SubFirstLevel(), SupFirstLevel()]
+
+for f in sfs {
+    if f is SupFirstLevel {
+        let spf = f as SupFirstLevel
+        println("Got a sup: \(spf.sup)")
+    }
+}
+
+let objs: Any[] = [Int(), FirstLevel(), ZeroLevel(), Person()]
+let sameObjects: AnyObject[] = [FirstLevel(), SubFirstLevel(), Person()]
+
+println("Hello Swift")
+
+struct Size {
+    var width = 0.0, height = 0.0
+}
+
+struct Point {
+    var x = 0.0, y = 0.0
+}
+
+struct Rect {
+    var origin = Point()
+    var size = Size()
+}
+
+let defaultRect = Rect()
+let memberwiseRect = Rect(origin: Point(x:2.0, y:2.0), size: Size(width: 5.0, height: 5.0))
+
+extension Rect {
+    init(center: Point, size:Size) {
+        let originX = center.x - (size.width / 2)
+        let originY = center.y - (size.height / 2)
+        self.init(origin: Point(x:originX, y:originY), size:size)
+    }
+}
+
+let centerRect = Rect(center: Point(x:4.0, y:4.0), size:Size(width:3.0, height:3.0))
+
+let num0: Int = 10 * 10
+
+protocol Togglable {
+    mutating func toggle()
+}
+
+enum OnOffSwitch : Togglable {
+    case Off, On
+    mutating func toggle() {
+        switch self {
+        case Off:
+            self = On
+        case On:
+            self = Off
+        }
+    }
+}
+
+class Light {
+    var state: Bool
+    
+    init() {
+        self.state = false
+    }
+    
+    func toggle() {
+        self.state = !self.state
+    }
+    
+    func description() -> String {
+        let stateString = self.state ? "On" : "Off"
+        return "Light is now \(stateString)."
+    }
+}
+extension Light : Togglable {}
+
+let aLight = Light()
+println(aLight.description())
+aLight.toggle()
+println(aLight.description())
+
+let aTogglableObject: Togglable = Light()
+
+//extension Light : Togglable {} // Xcode的编辑器不支持识别后声明的protocol? 编译是可以通过的。
+
+
 
