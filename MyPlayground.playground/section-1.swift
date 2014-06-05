@@ -234,17 +234,31 @@ class RecipeIngredient : Food {
         self.init(name:name, quantity: 1)
     }
     // Inherited from super class, thus optional if no further customization is needed.
-    convenience init() {
-        self.init(name:"[Unnamed Ingredient]", quantity: 1)
-    }
+    //convenience init() {
+    //    self.init(name:"[Unnamed Ingredient]", quantity: 1)
+    //}
 }
 
 let recep = RecipeIngredient()
 
+class ShoppingListItem : RecipeIngredient {
+    var purchased = false
+    var description: String {
+    var output = "\(quantity) x \(name.lowercaseString)"
+        output += purchased ? " ✔️" : " ✖️"
+        return output
+    }
+}
 
+var breakfastList = [
+    ShoppingListItem(),
+    ShoppingListItem(name: "Bacon"),
+    ShoppingListItem(name: "Eggs", quantity: 6)
+]
 
-
-
-
-
+breakfastList[0].name = "Orange Juice"
+breakfastList[0].purchased = true
+for item in breakfastList {
+    println(item.description)
+}
 
