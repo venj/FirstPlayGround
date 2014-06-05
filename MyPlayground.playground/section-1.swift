@@ -432,5 +432,11 @@ let aTogglableObject: Togglable = Light()
 
 //extension Light : Togglable {} // Xcode的编辑器不支持识别后声明的protocol? 编译是可以通过的。
 
+protocol Container {
+    typealias T
+    mutating func append(item: T)
+    var count:Int { get }
+    subscript (i: Int) -> T { get }
+}
 
 
