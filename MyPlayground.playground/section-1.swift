@@ -41,7 +41,7 @@ Double(number1) * 2.5
 //let anTraditionalObjectiveCArray = NSArray(objects: aView, aButton)
 
 // Following assignments are the Same
-var swiftArray: String[] = []  // Short hand syntax
+var swiftArray: [String] = []  // Short hand syntax
 var anotherSwiftArray: Array<String> = [] // Generic Syntax
 
 swiftArray = ["Hello", "World"]
@@ -53,15 +53,15 @@ numbers
 
 var dict = Dictionary<String, String>()
 var oneString = "1"
-let anotherDict: Dictionary<String, String> = ["one": oneString, "two": "2"]
-let anArray: Array<String> = ["1","2","3"]
+var anotherDict: Dictionary<String, String> = ["one": oneString, "two": "2"]
+var anArray: Array<String> = ["1","2","3"]
 anArray[0] = "4"
 // anotherDict["one"] = "1" + "" //Generate an error.
 oneString += ".0"
 
 
 let finalSquare = 25
-var board = Int[](count: finalSquare + 1, repeatedValue: 0)
+var board = [Int](count: finalSquare + 1, repeatedValue: 0)
 board[03] = +08; board[06] = +11; board[09] = +09; board[10] = +02
 board[14] = -10; board[19] = -11; board[22] = -02; board[24] = -08
 board
@@ -92,23 +92,23 @@ var a = 2, b = 3
 swap(&a, &b)
 let str1 = "\(a) and \(b)"
 
-let names = ["alpha", "delta", "beta", "gamma"]
+var names = ["alpha", "delta", "beta", "gamma"]
 var reversed = Array<String>()
-reversed = sort(names, { (str1:String, str2:String) -> Bool in
+reversed = sorted(names, { (str1:String, str2:String) -> Bool in
     return str1 > str2
 })
 reversed
-reversed = sort(names, { (str1:String, str2:String) -> Bool in return str1 > str2 })
+reversed = sorted(names, { (str1:String, str2:String) -> Bool in return str1 > str2 })
 reversed
-reversed = sort(names, { str1, str2 in return str1 > str2 })
+reversed = sorted(names, { str1, str2 in return str1 > str2 })
 reversed
-reversed = sort(names, { str1, str2 in str1 > str2 })
+reversed = sorted(names, { str1, str2 in str1 > str2 })
 reversed
-reversed = sort(names, { $0 > $1 })
+reversed = sorted(names, { $0 > $1 })
 reversed
-reversed = sort(names, >)
+reversed = sorted(names, >)
 reversed
-reversed = sort(names) { $0 > $1 }
+reversed = sorted(names) { $0 > $1 }
 reversed
 
 func increment(first: Int, #amount: Int) -> Int {
@@ -356,8 +356,8 @@ for f in sfs {
     }
 }
 
-let objs: Any[] = [Int(), FirstLevel(), ZeroLevel(), Person()]
-let sameObjects: AnyObject[] = [FirstLevel(), SubFirstLevel(), Person()]
+let objs: [Any] = [Int(), FirstLevel(), ZeroLevel(), Person()]
+let sameObjects: [AnyObject] = [FirstLevel(), SubFirstLevel(), Person()]
 
 println("Hello Swift")
 
